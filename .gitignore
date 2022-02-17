@@ -1,0 +1,7 @@
+.vscode/
+bin/
+obj/
+
+test.c
+*.gch
+*.exe
