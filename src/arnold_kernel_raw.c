@@ -1,9 +1,7 @@
 #include "arnold_kernel.h"
 #define swap(x, y) ((x) ^= (y) ^= (x) ^= (y))
 
-
-
-static void arnold_ize_8(char* array)
+void arnold_ize_8(char* array)
 {
     swap(array[1], array[5]);
     swap(array[3], array[7]);
@@ -32,7 +30,7 @@ static void arnold_ize_8(char* array)
 }
 
 
-static void arnold_ize_16(char* array)
+void arnold_ize_16(char* array)
 {
     swap(array[1], array[9]);
     swap(array[3], array[11]);
@@ -133,7 +131,7 @@ static void arnold_ize_16(char* array)
 }
 
 
-static void arnold_ize_32(char* array)
+void arnold_ize_32(char* array)
 {
     swap(array[1], array[17]);
     swap(array[3], array[19]);
@@ -522,7 +520,7 @@ static void arnold_ize_32(char* array)
 }
 
 
-static void arnold_ize_64(char* array)
+void arnold_ize_64(char* array)
 {
     swap(array[1], array[33]);
     swap(array[3], array[35]);
@@ -2063,7 +2061,7 @@ static void arnold_ize_64(char* array)
 }
 
 
-static void arnold_ize_128(char* array)
+void arnold_ize_128(char* array)
 {
     swap(array[1], array[65]);
     swap(array[3], array[67]);
@@ -8212,7 +8210,7 @@ static void arnold_ize_128(char* array)
 }
 
 
-static void arnold_ize_256(char* array)
+void arnold_ize_256(char* array)
 {
     swap(array[1], array[129]);
     swap(array[3], array[131]);
@@ -32793,86 +32791,3 @@ static void arnold_ize_256(char* array)
 }
 
 
-void arnold_ize_half_cycle_for_any_size(char* array, unsigned int data_size)
-{
-    unsigned short times_for_256  = data_size >> 16;
-    unsigned char times_for_128 = (data_size >> 14) & 0x3;
-    unsigned char times_for_64  = (data_size >> 12) & 0x3;
-    unsigned char times_for_32  = (data_size >> 10) & 0x3;
-    unsigned char times_for_16  = (data_size >> 8) & 0x3;
-    unsigned char times_for_08  = (data_size >> 6) & 0x3;
-
-    while(times_for_256--)
-    {
-        arnold_ize_256(array);
-        array += block_size_256;
-    }
-
-    while(times_for_128--)
-    {
-        arnold_ize_128(array);
-        array += block_size_128;
-    }
-
-    while(times_for_64--)
-    {
-        arnold_ize_64(array);
-        array += block_size_64;
-    }
-
-    while(times_for_32--)
-    {
-        arnold_ize_32(array);
-        array += block_size_32;
-    }
-
-    while(times_for_16--)
-    {
-        arnold_ize_16(array);
-        array += block_size_16;
-    }
-
-    while(times_for_08--)
-    {
-        arnold_ize_8(array);
-        array += block_size_08;
-    }
-}
-
-
-void arnold_ize_half_cycle_for_block(char* array, unsigned int kernel_size)
-{
-    switch(kernel_size)
-    {
-    case 8:
-        arnold_ize_8(array);
-        break;
-    case 16:
-        arnold_ize_16(array);
-        break;
-    case 32:
-        arnold_ize_32(array);
-        break;
-    case 64:
-        arnold_ize_64(array);
-        break;
-    case 128:
-        arnold_ize_128(array);
-        break;
-    case 256:
-        arnold_ize_256(array);
-        break;
-    default:
-        break;
-    }
-}
-
-void arnold_ize_half_cycle_for_chunk(char* array, unsigned int chunk_size)
-{
-    unsigned int times_for_256 = chunk_size >> 16;
-    while(times_for_256--)
-    {
-        arnold_ize_256(array);
-        array += block_size_256;
-    }
-}

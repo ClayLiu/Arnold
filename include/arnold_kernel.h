@@ -1,28 +1,23 @@
 #ifndef ARNOLD_KERNEL_HDIFHD
 #define ARNOLD_KERNEL_HDIFHD
 
-typedef int to_index_t;
-
-typedef struct arnold_map_t
+enum block_size_value 
 {
-    unsigned int kernel_size;
-    to_index_t* map;
-}ArnoldMap;
+    block_size_256   = 1u << (8u << 1),  // 2 ^ 16
+    block_size_128   = 1u << (7u << 1),  // 2 ^ 14
+    block_size_64    = 1u << (6u << 1),  // 2 ^ 12
+    block_size_32    = 1u << (5u << 1),  // 2 ^ 10
+    block_size_16    = 1u << (4u << 1),  // 2 ^ 8
+    block_size_08    = 1u << (3u << 1),  // 2 ^ 6
+};
 
-ArnoldMap* build_map(unsigned int kernel_size);
+/* 对任意大小的数据块进行半个周期的 arnold 变换 */
+void arnold_ize_half_cycle_for_any_size(char* array, unsigned int data_size);
 
-void destroy_map(ArnoldMap* map);
+/* 对任意保证为 block 大小的数据块进行半个周期的 arnold 变换 */
+void arnold_ize_half_cycle_for_block(char* array, unsigned int kernel_size);
 
-// 使用映射的 arnold 变换
-char* arnold_ize_using_map(char* array, char* temp, ArnoldMap* map);
-
-// 使用映射的递归实现任意大小的 arnold 变换
-void arnold_ize_any_size_using_map(char* data, unsigned int init_kernel_size, unsigned int data_size);
-
-// arnold 变换
-char* arnold_ize(char* array, char* temp, unsigned int kernel_size);
-
-// 递归实现任意大小的 arnold 变换
-void arnold_ize_any_size(char* data, unsigned int init_kernel_size, unsigned int data_size);
+/* 对大小是若干个 block_size_256 的数据块进行半个周期的 arnold 变换 */
+void arnold_ize_half_cycle_for_chunk(char* array, unsigned int chunk_size);
 
 #endif
