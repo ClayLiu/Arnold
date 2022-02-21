@@ -32793,7 +32793,7 @@ static void arnold_ize_256(char* array)
 }
 
 
-void arnold_ize_half_cycle_for_any_size(char* array, unsigned int data_size)
+void arnold_ize_half_cycle_for_any_size(char* array, size_t data_size)
 {
     unsigned short times_for_256  = data_size >> 16;
     unsigned char times_for_128 = (data_size >> 14) & 0x3;
@@ -32867,9 +32867,9 @@ void arnold_ize_half_cycle_for_block(char* array, unsigned int kernel_size)
     }
 }
 
-void arnold_ize_half_cycle_for_chunk(char* array, unsigned int chunk_size)
+void arnold_ize_half_cycle_for_chunk(char* array, size_t chunk_size)
 {
-    unsigned int times_for_256 = chunk_size >> 16;
+    size_t times_for_256 = chunk_size >> 16;
     while(times_for_256--)
     {
         arnold_ize_256(array);

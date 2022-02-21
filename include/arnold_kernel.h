@@ -1,5 +1,6 @@
 #ifndef ARNOLD_KERNEL_HDIFHD
 #define ARNOLD_KERNEL_HDIFHD
+#include <stdio.h>
 
 enum block_size_value 
 {
@@ -12,12 +13,12 @@ enum block_size_value
 };
 
 /* 对任意大小的数据块进行半个周期的 arnold 变换 */
-void arnold_ize_half_cycle_for_any_size(char* array, unsigned int data_size);
+void arnold_ize_half_cycle_for_any_size(char* array, size_t data_size);
 
 /* 对任意保证为 block 大小的数据块进行半个周期的 arnold 变换 */
 void arnold_ize_half_cycle_for_block(char* array, unsigned int kernel_size);
 
 /* 对大小是若干个 block_size_256 的数据块进行半个周期的 arnold 变换 */
-void arnold_ize_half_cycle_for_chunk(char* array, unsigned int chunk_size);
+void arnold_ize_half_cycle_for_chunk(char* array, size_t chunk_size);
 
 #endif

@@ -10,7 +10,7 @@ OBJS = $(patsubst %.c, $(OBJ)/%.o, $(notdir $(SRCS)))
 TARGET_NAME = main
 TARGET_PATH = $(BIN)/$(TARGET_NAME)
 
-CFLAGS = -std=c11 -I $(INC)
+CFLAGS = -std=c11 -O2 -I $(INC) -lpthread
 
 $(TARGET_PATH):$(OBJS)
 	gcc $^ -o $@
