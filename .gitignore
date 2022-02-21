@@ -1,6 +1,8 @@
 .vscode/
 bin/
 obj/
+old_files/
+test/
 
 test.c
 *.gch
