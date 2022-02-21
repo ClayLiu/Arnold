@@ -65,7 +65,7 @@ void* reading_thread_kernel(void* argv)
         buffer_index++;
         buffer_index %= buffer_count;
     } while(read >= single_buffer_size);
-    printf("done reading\n");
+    // printf("done reading\n");
 }
 
 
